@@ -40,7 +40,8 @@ class MyForm(QDialog):
         
         self.show()
         self.local_page = 0
-        self.tags = {'f_doujinshi':'0','f_manga':'0','f_artistcg':'0','f_gamecg':'0','f_western':'0','f_non-h':'0','f_imageset':'0','f_cosplay':'0','f_asianporn':'0','f_misc':'0','f_apply':'Apply Filter','f_search' :'chinese mind control','f_apply':'Apply Filter','page':'0'}
+#        self.tags = {'f_doujinshi':'0','f_manga':'0','f_artistcg':'0','f_gamecg':'0','f_western':'0','f_non-h':'0','f_imageset':'0','f_cosplay':'0','f_asianporn':'0','f_misc':'0','f_apply':'Apply Filter','f_search' :'chinese mind control','f_apply':'Apply Filter','page':'0'}
+        self.tags = {'f_cats':int(0),'page':'0','f_search' :'chinese mind control'}
         self.headers = {'User-Agent': 'Mozilla/5.0'}
     def eh_get_login(self):
         if os.path.exists('cookie.txt'):
@@ -63,8 +64,10 @@ class MyForm(QDialog):
         with requests.Session() as self.client:
             requests.utils.add_dict_to_cookiejar(self.client.cookies,self.cookie)
             self.client.headers.update(self.headers)
-            self.resp = self.client.post('https://exhentai.org',allow_redirects=False)    
+            self.resp = self.client.post('https://exhentai.org',allow_redirects=False)
             self.resp.encoding='urf-8'
+            #================================================临时
+            #====================================================
             self.result=self.client.get('https://exhentai.org/?inline_set=dm_t') # 变成大图模式
         #    self.result=self.client.get('http://exhentai.org',params=self.tags)
             
@@ -84,51 +87,53 @@ class MyForm(QDialog):
             self.local_page = 0
             self.tags['f_search']= self.ui.keywords_entry.text()
             self.tags['page'] = 0
-            self.result = self.client.get('http://exhentai.org',params=self.tags)
+            name = self.ui.keywords_entry.text()
+            name.replace(' ','+')
+            self.result = self.client.get('https://exhentai.org',params=self.tags)
             self.search_soup = bs4.BeautifulSoup(self.result.content,'lxml')
             self.eh_display_thumb(0)
 
     def eh_update_parameters(self):
         
         if self.ui.doujinshi_cb.isChecked()==True:
-            self.tags['f_doujinshi']=1
-        else :self.tags['f_doujinshi']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=2
         
         if self.ui.manga_cb.isChecked()==True:
-            self.tags['f_manga']=1
-        else :self.tags['f_manga']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=4
         
         if self.ui.artist_cb.isChecked()==True:
-            self.tags['f_artistcg']=1
-        else :self.tags['f_artistcg']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=8
         
         if self.ui.game_cb.isChecked()==True:
-            self.tags['f_gamecg']=1
-        else :self.tags['f_gamecg']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=16
         
         if self.ui.western_cb.isChecked()==True:
-            self.tags['f_western']=1
-        else :self.tags['f_western']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=512
         
         if self.ui.nonh_cb.isChecked()==True:
-            self.tags['f_non-h']=1
-        else :self.tags['f_non-h']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=256
         
         if self.ui.image_cb.isChecked()==True:
-            self.tags['f_imageset']=1
-        else :self.tags['f_imageset']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=32
         
         if self.ui.cosplay_cb.isChecked()==True:
-            self.tags['f_cosplay']=1
-        else :self.tags['f_cosplay']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=64
         
         if self.ui.asia_cb.isChecked()==True:
-            self.tags['f_asianporn']=1
-        else :self.tags['f_asianporn']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=128
         
         if self.ui.misc_cb.isChecked()==True:
-            self.tags['f_misc']=1
-        else :self.tags['f_misc']=0
+            self.tags['f_cats']+=0
+        else :self.tags['f_cats']+=1
         return
     def eh_display_thumb(self,local_page):
         ## find all gallerys in current page and print
@@ -138,7 +143,7 @@ class MyForm(QDialog):
 #        print('global page = ' + str(self.tags['page']))
 
 #        print('local page= ' + str(self.local_page))
-        a = self.search_soup.find_all(attrs={'class':'id1'}) #大图模式
+        a = self.search_soup.find_all(attrs={'class':'gl1t'}) #大图模式
         for thumbs in a:
             count += 1            
             if count < local_page*5+1:
@@ -191,7 +196,7 @@ class MyForm(QDialog):
     def eh_download(self):
         local_page=  self.local_page
         count = int(self.tags['page'])*25
-        for thumbs in self.search_soup.find_all(attrs={'class':'id1'}):
+        for thumbs in self.search_soup.find_all(attrs={'class':'gl1t'}):
             count += 1
             if count < local_page *5:
                 continue

@@ -311,6 +311,9 @@
       <property name="text">
        <string>Doujinshi</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
@@ -318,12 +321,21 @@
       <property name="text">
        <string>Manga</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
      <widget class="QCheckBox" name="artist_cb">
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
       <property name="text">
        <string>Artist CG</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -332,12 +344,18 @@
       <property name="text">
        <string>Game CG</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
      <widget class="QCheckBox" name="western_cb">
       <property name="text">
        <string>Western</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -346,6 +364,9 @@
       <property name="text">
        <string>Non-H</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
@@ -353,12 +374,18 @@
       <property name="text">
        <string>Image set</string>
       </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
      </widget>
     </item>
     <item>
      <widget class="QCheckBox" name="cosplay_cb">
       <property name="text">
        <string>Cosplay</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -376,6 +403,9 @@
    <property name="text">
     <string>Asia</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QCheckBox" name="misc_cb">
    <property name="geometry">
@@ -388,6 +418,9 @@
    </property>
    <property name="text">
     <string>Misc</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QFrame" name="frame_1">
