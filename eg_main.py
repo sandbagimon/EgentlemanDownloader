@@ -94,47 +94,49 @@ class MyForm(QDialog):
             self.eh_display_thumb(0)
 
     def eh_update_parameters(self):
+        self.tags['f_cats'] = 0      
+        if self.ui.doujinshi_cb.isChecked()==False:
+            self.tags['f_cats']+=2
+        else :self.tags['f_cats']+=0
         
-        if self.ui.doujinshi_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=2
+        if self.ui.manga_cb.isChecked()==False:
+            self.tags['f_cats']+=4
+        else :self.tags['f_cats']+=0
         
-        if self.ui.manga_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=4
+        if self.ui.artist_cb.isChecked()==False:
+            self.tags['f_cats']+=8
+        else :self.tags['f_cats']+=0
         
-        if self.ui.artist_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=8
+        if self.ui.game_cb.isChecked()==False:
+            self.tags['f_cats']+=16
+        else :self.tags['f_cats']+=0
         
-        if self.ui.game_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=16
+        if self.ui.western_cb.isChecked()==False:
+            self.tags['f_cats']+=512
+        else :self.tags['f_cats']+=0
         
-        if self.ui.western_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=512
+        if self.ui.nonh_cb.isChecked()==False:
+            self.tags['f_cats']+=256
+        else :self.tags['f_cats']+=0
         
-        if self.ui.nonh_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=256
+        if self.ui.image_cb.isChecked()==False:
+            self.tags['f_cats']+=32
+        else :self.tags['f_cats']+=0
         
-        if self.ui.image_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=32
+        if self.ui.cosplay_cb.isChecked()==False:
+            self.tags['f_cats']+=64
+        else :self.tags['f_cats']+=0
         
-        if self.ui.cosplay_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=64
+        if self.ui.asia_cb.isChecked()==False:
+            self.tags['f_cats']+=128
+        else :self.tags['f_cats']+=0
         
-        if self.ui.asia_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=128
-        
-        if self.ui.misc_cb.isChecked()==True:
-            self.tags['f_cats']+=0
-        else :self.tags['f_cats']+=1
+        if self.ui.misc_cb.isChecked()==False:
+            self.tags['f_cats']+=1
+        else :self.tags['f_cats']+=0
+
         return
+    
     def eh_display_thumb(self,local_page):
         ## find all gallerys in current page and print
         count = int(self.tags['page'])*25
@@ -179,7 +181,7 @@ class MyForm(QDialog):
 
         if self.tags['page'] != (self.local_page)//5:
             self.tags['page'] = (self.local_page)//5
-            self.result = self.client.get('http://exhentai.org',params=self.tags)
+            self.result = self.client.get('https://exhentai.org',params=self.tags)
             self.search_soup = bs4.BeautifulSoup(self.result.content,'lxml')
         self.eh_display_thumb(self.local_page)
         return
@@ -189,7 +191,7 @@ class MyForm(QDialog):
             self.local_page = 0
         if self.tags['page'] != (self.local_page)//5:
             self.tags['page'] = (self.local_page)//5
-            self.result = self.client.get('http://exhentai.org',params=self.tags)
+            self.result = self.client.get('https://exhentai.org',params=self.tags)
             self.search_soup = bs4.BeautifulSoup(self.result.content,'lxml')
         self.eh_display_thumb(self.local_page)
 #        ==================================
